@@ -1,36 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function EventDemo() {
+export default function EventExamples() {
   const [clicks, setClicks] = useState(0);
   const [renderCount, setRenderCount] = useState(0);
-  const [customMsg, setCustomMsg] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const storedClicks = localStorage.getItem("eventdemo_clicks");
-    const storedRender = localStorage.getItem("eventdemo_renderCount");
+    const storedClicks = localStorage.getItem("event_clicks");
+    const storedRender = localStorage.getItem("event_renderCount");
     setClicks(storedClicks ? parseInt(storedClicks, 10) : 0);
     setRenderCount(storedRender ? parseInt(storedRender, 10) : 0);
     setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem("eventdemo_clicks", clicks);
+    if (hydrated) localStorage.setItem("event_clicks", clicks);
   }, [clicks, hydrated]);
   useEffect(() => {
-    if (hydrated) localStorage.setItem("eventdemo_renderCount", renderCount);
+    if (hydrated) localStorage.setItem("event_renderCount", renderCount);
   }, [renderCount, hydrated]);
 
   useEffect(() => {
     if (hydrated) setRenderCount((c) => c + 1);
   }, [hydrated]);
-
-  const handleCustomEvent = async () => {
-    const res = await fetch("/api/custom-event?msg=¡Hola desde Next.js!", { method: "POST" });
-    const data = await res.json();
-    setCustomMsg(data.status);
-  };
 
   if (!hydrated) return <div>Cargando...</div>;
 
@@ -40,11 +33,7 @@ return (
         <button onClick={() => setClicks(clicks + 1)} style={{ margin: 8 }}>
             Clicks: {clicks}
         </button>
-        <div>Renderizado de componente: {renderCount} vez/veces</div>
-        <button onClick={handleCustomEvent} style={{ margin: 8 }}>
-            Disparar evento personalizado (Node.js)
-        </button>
-        {customMsg && <div style={{ color: "green" }}>{customMsg}</div>}
+        <div>Renderizado de componente: {renderCount} {renderCount > 1 ? "veces" : "vez"}</div>
     </div>
 );
 }

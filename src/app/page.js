@@ -1,8 +1,8 @@
 "use client";
-import EventDemo from "./EventDemo";
+import EventExamples from "./EventExamples";
 
 export default function Home() {
   return (
-    <EventDemo/>
+    <EventExamples/>
   );
 }
