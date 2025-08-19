@@ -4,28 +4,28 @@ import { useEffect, useState } from "react";
 export default function EventExamples() {
   const [clicks, setClicks] = useState(0);
   const [mountCount, setMountCount] = useState(0);
-  const [hydrated, setHydrated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     const storedClicks = localStorage.getItem("event_clicks");
     const storedMount = localStorage.getItem("event_mountCount");
     setClicks(storedClicks ? parseInt(storedClicks, 10) : 0);
     setMountCount(storedMount ? parseInt(storedMount, 10) : 0);
-    setHydrated(true);
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem("event_clicks", clicks);
-  }, [clicks, hydrated]);
+    if (isMounted) localStorage.setItem("event_clicks", clicks);
+  }, [clicks, isMounted]);
   useEffect(() => {
-    if (hydrated) localStorage.setItem("event_mountCount", mountCount);
-  }, [mountCount, hydrated]);
+    if (isMounted) localStorage.setItem("event_mountCount", mountCount);
+  }, [mountCount, isMounted]);
 
   useEffect(() => {
-    if (hydrated) setMountCount((c) => c + 1);
-  }, [hydrated]);
+    if (isMounted) setMountCount((c) => c + 1);
+  }, [isMounted]);
 
-  if (!hydrated) return <div>Cargando...</div>;
+  if (!isMounted) return <div>Cargando...</div>;
 
   return (
     <div
